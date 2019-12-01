@@ -1,0 +1,6 @@
+env/
+*.pyc
+__pycache__
+DidItBackend/static/*.jpg
+app.db
+.cache/
