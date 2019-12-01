@@ -13,8 +13,8 @@ def index():
 @app.route('/user/<id>/')
 def getUserById(id):
     if(id=="emma"):
-        return("{'title':'I Love You Emma'}")
-    return("{'title':'No User Name :"+id+"'}")
+        return('{"title":"I Love You Emma"}')
+    return('{"title":"No User Name :'+id+'"}')
 
 
 
