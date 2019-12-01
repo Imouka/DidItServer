@@ -12,8 +12,8 @@ def index():
 
 @app.route('/user/<id>/')
 def getUserById(id):
-    if(id=="1"):
-        return("I am user 1")
+    if(id=="emma"):
+        return("I Love You Emma")
     return("No user "+id)
 
 
