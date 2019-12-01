@@ -4,3 +4,4 @@ __pycache__
 DidItBackend/static/*.jpg
 app.db
 .cache/
+how to go in env.txt
