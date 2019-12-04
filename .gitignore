@@ -5,3 +5,4 @@ DidItBackend/static/*.jpg
 app.db
 .cache/
 how to go in env.txt
+.idea/
