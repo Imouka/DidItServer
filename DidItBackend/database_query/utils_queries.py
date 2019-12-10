@@ -9,6 +9,10 @@ def find_project_by_id(project_id):
     return md.Project.query.get(project_id)
 
 
+def find_project_by_user_id(user_id):
+    return md.Project.query.filter(md.Project.user_id == user_id)
+
+
 def find_all_users():
     return md.User.query.all()
 
