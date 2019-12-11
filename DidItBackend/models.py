@@ -85,5 +85,10 @@ def populate_db():
                                                                                    "put in the database so I really"
                                                                                    "need to work hard on this one"
                            , "2019/12/01", "2019/12/30", 10, "projects", 1))
+    db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
+                                                                                       ", he is the best friend I good"
+                                                                                       " image, I even live naked arou"
+                                                                                       "nd him."
+                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
     db.session.commit()
     lg.info('Database as been update with one project!')
