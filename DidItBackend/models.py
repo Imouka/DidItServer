@@ -90,5 +90,22 @@ def populate_db():
                                                                                        " image, I even live naked arou"
                                                                                        "nd him."
                            , "2019/12/01", "2019/12/30", 10, "projects", 1))
+	db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
+                                                                                       ", he is the best friend I good"
+                                                                                       " image, I even live naked arou"
+                                                                                       "nd him."
+                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+	db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
+                                                                                       ", he is the best friend I good"
+                                                                                       " image, I even live naked arou"
+                                                                                       "nd him."
+                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+	db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
+                                                                                       ", he is the best friend I good"
+                                                                                       " image, I even live naked arou"
+                                                                                       "nd him."
+                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+	db.session.add(Project(2, "Finish the list of projects", "Nice picture", "Coucou je suis très content poney bleu"
+                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
     db.session.commit()
     lg.info('Database as been update with one project!')
