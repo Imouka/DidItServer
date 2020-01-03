@@ -1,7 +1,8 @@
 from flask import (
-    Blueprint, abort
+    Blueprint, abort, current_app
 )
-from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id
+from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
+    find_friends_by_user_id
 
 usersBp = Blueprint('users', __name__, url_prefix='/users')
 
@@ -29,6 +30,24 @@ def get_all_user_project_by_id(user_id):
         projects.append(project)
     dict_project = {"projects": projects}
     return dict_project
+
+
+@usersBp.route('/<user_id>/friends/')
+def get_all_user_friends_by_id(user_id):
+    result = find_friends_by_user_id(user_id)
+    if result is None:
+        abort(404)
+    friends = []
+    current_app.logger.info(result)
+    for friends_object in result:
+        friend = friends_object[1].__dict__
+        friend = {your_key: friend[your_key] for your_key in ["first_name", "last_name", "icon", "id"]}
+        friendship = friends_object[0].__dict__
+        friendship = {your_key: friendship[your_key] for your_key in ["request_date", "status"]}
+        friend.update(friendship)
+        friends.append(friend)
+    dict_friend = {"friends": friends}
+    return dict_friend
 
 
 @usersBp.route('/')

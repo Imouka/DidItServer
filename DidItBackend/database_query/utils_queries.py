@@ -1,4 +1,5 @@
 from .. import models as md
+from sqlalchemy import or_
 
 
 def find_all_projects():
@@ -19,3 +20,17 @@ def find_all_users():
 
 def find_user_by_id(user_id):
     return md.User.query.get(user_id)
+
+
+def find_friends_by_user_id(user_id):
+    first_select = md.db.session.query(md.Friendship, md.User) \
+        .filter(md.Friendship.user_id_1 == user_id) \
+        .filter(md.User.id == md.Friendship.user_id_2).all()
+
+    second_select = md.db.session.query(md.Friendship, md.User) \
+        .filter(md.Friendship.user_id_2 == user_id) \
+        .filter(md.User.id == md.Friendship.user_id_1).all()
+
+    total_list = first_select + second_select
+    total_list = list(dict.fromkeys(total_list))
+    return total_list
