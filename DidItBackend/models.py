@@ -136,7 +136,7 @@ def populate_db():
     lg.info('Database as been update with two news users!')
 
     # Add Friendship
-    db.session.add(Friendship(1, 2, "2020/01/01", "ACCEPTED", "2020/01/01"))
+    db.session.add(Friendship(1, 2, "2020/01/01", "RECEIVED", "2020/01/01"))
     db.session.add(Friendship(3, 2, "2020/01/01", "ACCEPTED", "2020/01/01"))
     db.session.add(Friendship(1, 3, "2020/01/01", "SENDED", "2020/01/01"))
     db.session.commit()
