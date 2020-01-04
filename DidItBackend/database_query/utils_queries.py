@@ -1,5 +1,5 @@
 from .. import models as md
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 
 
 def find_all_projects():
@@ -11,7 +11,11 @@ def find_project_by_id(project_id):
 
 
 def find_project_by_user_id(user_id):
-    return md.Project.query.filter(md.Project.user_id == user_id)
+    update = md.db.session.query(md.Project, func.max(md.Update.new_value)).outerjoin(md.Update,
+                                                                                      md.Project.id == md.Update.project_id).group_by(
+        md.Project.id) \
+        .filter(md.Project.user_id == user_id).all()
+    return update
 
 
 def find_all_users():
@@ -34,3 +38,19 @@ def find_friends_by_user_id(user_id):
     total_list = first_select + second_select
     total_list = list(dict.fromkeys(total_list))
     return total_list
+
+
+def find_feed_by_project_id(project_id):
+    update_select = md.db.session.query(md.Update, md.User) \
+        .filter(md.Update.project_id == project_id) \
+        .filter(md.User.id == md.Update.user_id).all()
+
+    comment_select = md.db.session.query(md.Comment, md.User) \
+        .filter(md.Comment.project_id == project_id) \
+        .filter(md.User.id == md.Comment.user_id).all()
+
+    support_select = md.db.session.query(md.Support, md.User) \
+        .filter(md.Support.project_id == project_id) \
+        .filter(md.User.id == md.Support.user_id).all()
+
+    return {"updates": update_select, "comments": comment_select, "supports": support_select}

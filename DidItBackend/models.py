@@ -145,18 +145,18 @@ def populate_db():
     # Add 3 Project by user
     db.session.add(Project(1, "Invite Eve to dinner twice a week", "Nice picture", "I would like to "
                                                                                    "go out a lot with Eve"
-                           , "2019/12/01", "2019/12/30", 2, "go out to dinner", 1))
+                           , "2019/12/01", "2020/01/30", 2, "go out to dinner", 1))
     db.session.add(Project(1, "Invite Eve to dancing twice a week", "Nice picture", "I would to go out a lot with Eve"
-                           , "2019/12/01", "2019/12/30", 10, "fruits", 1))
+                           , "2019/12/01", "2020/02/24", 10, "fruits", 1))
     db.session.add(Project(1, "Invite Eve to the theater twice a week", "Nice picture", "I would to go"
                                                                                         " out a lot with Eve"
-                           , "2019/12/01", "2019/12/30", 2, "go out to dinner", 1))
+                           , "2019/12/01", "2020/12/30", 2, "go out to dinner", 1))
     db.session.add(Project(2, "Try out new fruits", "Nice picture", "I'll try to go vegan"
                            , "2019/12/01", "2019/12/30", 10, "fruits", 1))
     db.session.add(Project(2, "Get some sleep", "Nice picture", "I love to sleep so I decided to sleep"
                                                                 " at least 10 hours"
                                                                 " a day during one week"
-                           , "2019/12/01", "2019/12/30", 70, "hours of sleep", 10))
+                           , "2020/12/01", "2020/12/30", 70, "hours of sleep", 10))
     db.session.add(Project(2, "Find some idea for funny projects", "Nice picture", "I'm running out of funny project to"
                                                                                    "put in the database so I really"
                                                                                    "need to work hard on this one"
