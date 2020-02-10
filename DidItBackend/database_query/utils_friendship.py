@@ -19,7 +19,7 @@ def send(user_id, friend_id):
 
 
 def isConfirmable(user_id, friend_id):
-    result = md.db.engine.execute("SELECT status FROM Friendship WHERE user_id_1 = ? AND user_id_2 = ? "
+    result = md.db.engine.execute("SELECT status FROM Friendship WHERE (user_id_1 = ?) AND (user_id_2 = ?) "
                                   , friend_id, user_id).fetchall()
     return (len(result) == 1) and (result[0][0] == 'SENDED')
 

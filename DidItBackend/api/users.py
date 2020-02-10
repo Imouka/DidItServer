@@ -77,7 +77,7 @@ def get_all_user_friends_by_id(user_id):
     return dict_friend
 
 
-@usersBp.route('/<user_id>/friends/', methods=['POST'])
+@usersBp.route('/<user_id>/friends/update', methods=['POST'])
 def update_friends_by_id(user_id):
     data = request.json
     if data is None:
