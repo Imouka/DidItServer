@@ -132,11 +132,25 @@ def populate_db():
                         , "a long time ago"))
     db.session.add(User("Some random dude", "Super Password", "Amazingly nice picture", "Snake", "Snake"
                         , "Damn"))
+    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "John", "Tommy"
+                        , "yesterday"))
+    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Tommy", "John"
+                        , "yesterday"))
+    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Emma", "Bort"
+                        , "yesterday"))
+    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Francois", "Mat"
+                        , "yesterday"))
+    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Lise", "Bort"
+                        , "yesterday"))
+    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Louise", "Mat"
+                        , "yesterday"))
+    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Mumu", "Juju"
+                        , "yesterday"))
     db.session.commit()
     lg.info('Database as been update with two news users!')
 
     # Add Friendship
-    db.session.add(Friendship(1, 2, "2020/01/01", "RECEIVED", "2020/01/01"))
+    db.session.add(Friendship(1, 2, "2020/01/01", "SENDED", "2020/01/01"))
     db.session.add(Friendship(3, 2, "2020/01/01", "ACCEPTED", "2020/01/01"))
     db.session.add(Friendship(1, 3, "2020/01/01", "SENDED", "2020/01/01"))
     db.session.commit()
@@ -187,11 +201,11 @@ def populate_db():
     lg.info('Database as been update with one project!')
 
     # Add Supports
-    db.session.add(Support(1, 4, "2020/01/01", "RECEIVED"))
+    db.session.add(Support(1, 4, "2020/01/01", "ACCEPTED"))
     db.session.add(Support(1, 6, "2019/12/01", "SENDED"))
-    db.session.add(Support(2, 1, "2019/12/12", "RECEIVED"))
+    db.session.add(Support(2, 1, "2019/12/12", "ACCEPTED"))
     db.session.add(Support(3, 4, "2020/01/01", "SENDED"))
-    db.session.add(Support(3, 5, "2020/01/01", "RECEIVED"))
+    db.session.add(Support(3, 5, "2020/01/01", "ACCEPTED"))
     db.session.add(Support(3, 6, "2020/01/01", "SENDED"))
     db.session.commit()
     lg.info('Database as been update with 6 Supports!')

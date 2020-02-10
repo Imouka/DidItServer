@@ -1,9 +1,11 @@
 from flask import (
-    Blueprint, abort, current_app
+    Blueprint, abort, current_app, request
 )
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
     find_friends_by_user_id, find_feed_by_project_id
 from datetime import datetime
+
+from ..request_handling.friendshipHandling import handleFriendAction
 
 
 def days_between(d1, d2):
@@ -42,7 +44,7 @@ def get_all_user_project_by_id(user_id):
         total_time = days_between(project["project_start_date"], project["project_end_date"])
         d = datetime.today().strftime('%Y/%m/%d')
         project_time = days_between(project["project_start_date"], d)
-        time_progression = project_time/total_time
+        time_progression = project_time / total_time
         if time_progression < 0:
             time_progression = 0
         if time_progression > 1:
@@ -55,7 +57,7 @@ def get_all_user_project_by_id(user_id):
     return dict_projects
 
 
-@usersBp.route('/<user_id>/friends/')
+@usersBp.route('/<user_id>/friends/', methods=['GET'])
 def get_all_user_friends_by_id(user_id):
     result = find_friends_by_user_id(user_id)
     if result is None:
@@ -66,11 +68,27 @@ def get_all_user_friends_by_id(user_id):
         friend = friends_object[1].__dict__
         friend = {your_key: friend[your_key] for your_key in ["first_name", "last_name", "icon", "id"]}
         friendship = friends_object[0].__dict__
+        if (friendship['user_id_2'] == int(user_id)) & (friendship["status"] == 'SENDED'):
+            friendship['status'] = 'RECEIVED'
         friendship = {your_key: friendship[your_key] for your_key in ["request_date", "status"]}
         friend.update(friendship)
         friends.append(friend)
     dict_friend = {"friends": friends}
     return dict_friend
+
+
+@usersBp.route('/<user_id>/friends/', methods=['POST'])
+def update_friends_by_id(user_id):
+    data = request.json
+    if data is None:
+        return {"status": "error", "message": "The request was not correctly formated"}
+    # check valid data
+    hasAction = 'action' in data
+    hasFriend = 'friendid' in data
+    if hasAction & hasFriend & (data['action'] in ['confirm', 'refuse', 'send', 'unfriend']):
+        return handleFriendAction(user_id, data['friendid'], data['action'])
+    else:
+        return {"status": "error", "message": "The request was not correctly formated"}
 
 
 @usersBp.route('/')
