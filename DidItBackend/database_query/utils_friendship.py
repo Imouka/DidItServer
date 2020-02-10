@@ -1,11 +1,11 @@
 from .. import models as md
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, text
 from datetime import datetime
 
 
 def isSendable(user_id, friend_id):
-    result = md.db.engine.execute("SELECT * FROM Friendship WHERE (user_id_1 = ? AND user_id_2 = ?) OR "
-                                  "(user_id_1 = ? AND user_id_2 = ?)", user_id, friend_id, friend_id, user_id) \
+    result = md.db.engine.execute(text("SELECT * FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
+                                  "(user_id_1 = :id2 AND user_id_2 = :id1)"), id1=user_id, id2=friend_id) \
         .fetchall()
     return len(result) == 0 & (user_id != friend_id)
 
@@ -19,8 +19,8 @@ def send(user_id, friend_id):
 
 
 def isConfirmable(user_id, friend_id):
-    result = md.db.engine.execute("SELECT status FROM Friendship WHERE (user_id_1 = ?) AND (user_id_2 = ?) "
-                                  , friend_id, user_id).fetchall()
+    result = md.db.engine.execute(text("SELECT status FROM Friendship WHERE (user_id_1 = :id2) AND (user_id_2 = :id1) ")
+                                  , id1=user_id, id2=friend_id).fetchall()
     return (len(result) == 1) and (result[0][0] == 'SENDED')
 
 
@@ -37,8 +37,8 @@ def confirm(user_id, friend_id):
 
 
 def isRefusable(user_id, friend_id):
-    result = md.db.engine.execute("SELECT * FROM Friendship WHERE (user_id_1 = ? AND user_id_2 = ?)"
-                                  , friend_id, user_id).fetchall()
+    result = md.db.engine.execute(text("SELECT * FROM Friendship WHERE (user_id_1 = :id2 AND user_id_2 = :id1)")
+                                  , id1=user_id, id2=friend_id).fetchall()
     return (len(result) == 1) and (result[0][0] == 'SENDED')
 
 
@@ -52,9 +52,9 @@ def refuse(user_id, friend_id):
 
 
 def isUnfriendable(user_id, friend_id):
-    result = md.db.engine.execute("SELECT status FROM Friendship WHERE (user_id_1 = ? AND user_id_2 = ?) OR "
-                                  "(user_id_1 = ? AND user_id_2 = ?)",
-                                  user_id, friend_id, friend_id, user_id).fetchall()
+    result = md.db.engine.execute(text("SELECT status FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
+                                  "(user_id_1 = :id2 AND user_id_2 = :id1)"),
+                                  id1=user_id, id2=friend_id).fetchall()
     return (len(result) == 1) and (result[0][0] == 'ACCEPTED')
 
 
