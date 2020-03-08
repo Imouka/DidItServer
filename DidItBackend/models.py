@@ -35,15 +35,14 @@ class Project(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String(200), nullable=False)
     logo = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.String(200), nullable=True)
     project_start_date = db.Column(db.String(200), nullable=False)
     project_end_date = db.Column(db.String(200), nullable=False)
     objective = db.Column(db.Integer, nullable=False)
-    label_objective = db.Column(db.String(200), nullable=False)
     pas = db.Column(db.Integer, nullable=False)
 
     def __init__(self, user_id, title, logo, description, project_start_date, project_end_date, objective,
-                 label_objective, pas):
+                 pas):
         self.user_id = user_id
         self.title = title
         self.logo = logo
@@ -51,7 +50,6 @@ class Project(db.Model):
         self.project_start_date = project_start_date
         self.project_end_date = project_end_date
         self.objective = objective
-        self.label_objective = label_objective
         self.pas = pas
 
 
@@ -159,44 +157,44 @@ def populate_db():
     # Add 3 Project by user
     db.session.add(Project(1, "Invite Eve to dinner twice a week", "Nice picture", "I would like to "
                                                                                    "go out a lot with Eve"
-                           , "2019/12/01", "2020/01/30", 2, "go out to dinner", 1))
+                           , "2019/12/01", "2020/01/30", 2, 1))
     db.session.add(Project(1, "Invite Eve to dancing twice a week", "Nice picture", "I would to go out a lot with Eve"
-                           , "2019/12/01", "2020/02/24", 10, "fruits", 1))
+                           , "2019/12/01", "2020/02/24", 10, 1))
     db.session.add(Project(1, "Invite Eve to the theater twice a week", "Nice picture", "I would to go"
                                                                                         " out a lot with Eve"
-                           , "2019/12/01", "2020/12/30", 2, "go out to dinner", 1))
+                           , "2019/12/01", "2020/12/30", 2, 1))
     db.session.add(Project(2, "Try out new fruits", "Nice picture", "I'll try to go vegan"
-                           , "2019/12/01", "2019/12/30", 10, "fruits", 1))
+                           , "2019/12/01", "2019/12/30", 10, 1))
     db.session.add(Project(2, "Get some sleep", "Nice picture", "I love to sleep so I decided to sleep"
                                                                 " at least 10 hours"
                                                                 " a day during one week"
-                           , "2020/12/01", "2020/12/30", 70, "hours of sleep", 10))
+                           , "2020/12/01", "2020/12/30", 70, 10))
     db.session.add(Project(2, "Find some idea for funny projects", "Nice picture", "I'm running out of funny project to"
                                                                                    "put in the database so I really"
                                                                                    "need to work hard on this one"
-                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+                           , "2019/12/01", "2019/12/30", 10, 1))
     db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                        ", he is the best friend I good"
                                                                                        " image, I even live naked arou"
                                                                                        "nd him."
-                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+                           , "2019/12/01", "2019/12/30", 10, 1))
     db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                        ", he is the best friend I good"
                                                                                        " image, I even live naked arou"
                                                                                        "nd him."
-                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+                           , "2019/12/01", "2019/12/30", 10, 1))
     db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                        ", he is the best friend I good"
                                                                                        " image, I even live naked arou"
                                                                                        "nd him."
-                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+                           , "2019/12/01", "2019/12/30", 10, 1))
     db.session.add(Project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                        ", he is the best friend I good"
                                                                                        " image, I even live naked arou"
                                                                                        "nd him."
-                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+                           , "2019/12/01", "2019/12/30", 10, 1))
     db.session.add(Project(2, "Finish the list of projects", "Nice picture", "Coucou je suis très content poney bleu"
-                           , "2019/12/01", "2019/12/30", 10, "projects", 1))
+                           , "2019/12/01", "2019/12/30", 10, 1))
     db.session.commit()
     lg.info('Database as been update with one project!')
 

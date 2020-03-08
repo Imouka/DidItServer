@@ -15,7 +15,6 @@ def get_project_by_id(project_id):
     project.pop('_sa_instance_state', None)
     return project
 
-
 @projectsBp.route('/')
 def get_all_projects():
     result = find_all_projects()

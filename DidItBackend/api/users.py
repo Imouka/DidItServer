@@ -6,6 +6,7 @@ from ..database_query.utils_queries import find_user_by_id, find_all_users, find
 from datetime import datetime
 
 from ..request_handling.friendshipHandling import handleFriendAction
+from ..request_handling.projectHandling import createNewProject
 
 
 def days_between(d1, d2):
@@ -38,7 +39,7 @@ def get_all_user_project_by_id(user_id):
         project = projects_object[0].__dict__
         project = {your_key: project[your_key] for your_key in
                    ["id", "user_id", "title", "logo", "description", "project_start_date",
-                    "project_end_date", "objective", "label_objective", "pas"]}
+                    "project_end_date", "objective", "pas"]}
         project["progression"] = projects_object[1] or 0
         project["progression_percentage"] = float(project["progression"]) / float(project["objective"])
         total_time = days_between(project["project_start_date"], project["project_end_date"])
@@ -87,6 +88,23 @@ def update_friends_by_id(user_id):
     hasFriend = 'friendid' in data
     if hasAction & hasFriend & (data['action'] in ['confirm', 'refuse', 'send', 'unfriend']):
         return handleFriendAction(user_id, data['friendid'], data['action'])
+    else:
+        return {"status": "error", "message": "The request was not correctly formated"}
+
+
+@usersBp.route('/<user_id>/projects/new', methods=['POST'])
+def create_new_project(user_id):
+    data = request.json
+    if data is None:
+        return {"status": "error", "message": "The request was not correctly formated"}
+    # check valid data
+    has_title = 'title' in data
+    has_start_date = 'start_date' in data
+    has_end_date = 'end_date' in data
+    has_target_value = 'target_value' in data
+    has_step_size = 'step_size' in data
+    if has_end_date & has_start_date & has_step_size & has_target_value & has_title:
+        return createNewProject(user_id, data)
     else:
         return {"status": "error", "message": "The request was not correctly formated"}
 
