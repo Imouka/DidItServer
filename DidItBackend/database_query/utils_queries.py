@@ -1,3 +1,7 @@
+
+from flask import (
+     abort
+)
 from .. import models as md
 from sqlalchemy import or_, func
 
@@ -23,7 +27,14 @@ def find_all_users():
 
 
 def find_user_by_id(user_id):
-    return md.User.query.get(user_id)
+    user = md.User.query.get(user_id)
+    friends_nb = len(find_friends_by_user_id(user_id))
+    if user is None:
+        abort(404)
+    user = user.__dict__
+    user["nb_friends"]= friends_nb
+    user.pop('_sa_instance_state', None)
+    return user
 
 
 def find_friends_by_user_id(user_id):

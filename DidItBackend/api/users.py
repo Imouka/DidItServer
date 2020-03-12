@@ -21,11 +21,7 @@ usersBp = Blueprint('users', __name__, url_prefix='/users')
 @usersBp.route('/<user_id>/')
 def get_user_by_id(user_id):
     result = find_user_by_id(user_id)
-    if result is None:
-        abort(404)
-    user = result.__dict__
-    user.pop('_sa_instance_state', None)
-    return user
+    return result
 
 
 @usersBp.route('/<user_id>/projects/')
