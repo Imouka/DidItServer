@@ -12,7 +12,7 @@ from ..request_handling.projectHandling import createNewProject
 def days_between(d1, d2):
     d1 = datetime.strptime(d1, "%Y/%m/%d")
     d2 = datetime.strptime(d2, "%Y/%m/%d")
-    return abs((d2 - d1).days)
+    return abs((d2 - d1).days)+1
 
 
 usersBp = Blueprint('users', __name__, url_prefix='/users')
