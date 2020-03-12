@@ -1,6 +1,8 @@
 from flask import (
     Blueprint, abort
 )
+
+from ..database_query.utils_project import delete_project
 from ..database_query.utils_queries import find_project_by_id, find_all_projects
 
 projectsBp = Blueprint('projects', __name__, url_prefix='/projects')
@@ -28,3 +30,11 @@ def get_all_projects():
         projects.append(project)
     dict_project = {"projects": projects}
     return dict_project
+
+@projectsBp.route('/<project_id>/delete', methods=['POST'])
+def delete_project_by_id(project_id):
+    result = find_project_by_id(project_id)
+    if result is None:
+        abort(404)
+    else:
+        return delete_project(result)

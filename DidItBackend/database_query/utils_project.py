@@ -10,3 +10,10 @@ def create_project(user_id, title, logo, description, project_start_date, projec
     md.db.session.refresh(new_project)
     md.db.session.commit()
     return new_project.id
+
+
+def delete_project(project):
+    md.db.session.delete(project)
+    md.db.session.flush()
+    md.db.session.commit()
+    return {"status": "ok"}
