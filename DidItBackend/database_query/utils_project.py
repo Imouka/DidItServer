@@ -17,3 +17,13 @@ def delete_project(project):
     md.db.session.flush()
     md.db.session.commit()
     return {"status": "ok"}
+
+
+def modify_project(project_id, title, description, project_end_date):
+    q = md.db.session.query(md.Project)
+    q = q.filter(md.Project.id == project_id)
+    q.update({md.Project.title: title, md.Project.description: description,
+              md.Project.project_end_date: project_end_date})
+    md.db.session.flush()
+    md.db.session.commit()
+    return {"status": "ok"}
