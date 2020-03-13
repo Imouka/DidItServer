@@ -1,7 +1,7 @@
 
 from flask import (
-     abort
-)
+    abort,
+    current_app)
 from .. import models as md
 from sqlalchemy import or_, func
 
@@ -20,6 +20,15 @@ def find_project_by_user_id(user_id):
         md.Project.id) \
         .filter(md.Project.user_id == user_id).all()
     return update
+
+
+def find_progression_by_project_id(project_id):
+    update = md.db.session.query(md.Project, func.max(md.Update.new_value)).outerjoin(md.Update,
+                                                                                      md.Project.id == md.Update.project_id).group_by(
+        md.Project.id) \
+        .filter(md.Project.id == project_id).one()
+    current_app.logger.info(update[1] or 0)
+    return update[1] or 0
 
 
 def find_all_users():

@@ -4,7 +4,7 @@ from flask import (
 
 from ..database_query.utils_project import delete_project
 from ..database_query.utils_queries import find_project_by_id, find_all_projects
-from ..request_handling.projectHandling import modifyProject
+from ..request_handling.projectHandling import modifyProject, addUpdateToProject
 
 projectsBp = Blueprint('projects', __name__, url_prefix='/projects')
 
@@ -17,6 +17,7 @@ def get_project_by_id(project_id):
     project = result.__dict__
     project.pop('_sa_instance_state', None)
     return project
+
 
 @projectsBp.route('/')
 def get_all_projects():
@@ -31,6 +32,7 @@ def get_all_projects():
         projects.append(project)
     dict_project = {"projects": projects}
     return dict_project
+
 
 @projectsBp.route('/<project_id>/delete', methods=['POST'])
 def delete_project_by_id(project_id):
@@ -54,3 +56,18 @@ def create_new_project(project_id):
     else:
         return {"status": "error", "message": "The request was not correctly formated"}
 
+
+@projectsBp.route('/<project_id>/addUpdate', methods=['POST'])
+def add_update_to_project(project_id):
+    data = request.json
+    if data is None:
+        return {"status": "error", "message": "The request was not correctly formated"}
+    # check valid data
+    has_date = 'date' in data
+    has_user_id = 'user_id' in data
+    has_message = 'message' in data
+    has_progression = 'progression' in data
+    if (has_progression | has_message) & has_date & has_user_id:
+        return addUpdateToProject(project_id, data)
+    else:
+        return {"status": "error", "message": "The request was not correctly formated"}
