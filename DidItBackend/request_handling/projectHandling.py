@@ -32,18 +32,19 @@ def modifyProject(project_id, project_data):
 
 
 def addUpdateToProject(project_id, update_data):
-    project_id = project_id
     user_id = update_data['user_id']
     date = update_data['date']
     message = None
     old_value = find_progression_by_project_id(project_id)
-    new_value= old_value
+    new_value = old_value
     current_app.logger.info(old_value)
     if "message" in update_data:
         message = update_data['message']
         current_app.logger.info(message)
     if "progression" in update_data:
-        new_value = old_value + update_data['progression']
-        current_app.logger.info(new_value)
-    id=add_update_to_project(project_id, user_id, date, message, old_value, new_value)
-    return {"status": "ok", "message": "The update has been saved","id":id}
+        if update_data['progression'] != null:
+            new_value = old_value + update_data['progression']
+        else:
+            new_value = old_value
+    update_id = add_update_to_project(project_id, user_id, date, message, old_value, new_value)
+    return {"status": "ok", "message": "The update has been saved", "id": update_id}
