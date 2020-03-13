@@ -35,7 +35,7 @@ def modify_project(project_id, title, description, project_end_date):
 
 
 def add_update_to_project(project_id, user_id, date, message, old_value, new_value):
-    new_update = md.Update( user_id, project_id, date, old_value, new_value, message)
+    new_update = md.Update(user_id, project_id, date, old_value, new_value, message)
     md.db.session.add(new_update)
     md.db.session.flush()
     md.db.session.refresh(new_update)
