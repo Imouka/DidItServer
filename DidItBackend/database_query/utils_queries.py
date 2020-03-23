@@ -2,8 +2,10 @@
 from flask import (
     abort,
     current_app)
+from sqlalchemy.orm import aliased
+
 from .. import models as md
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, distinct
 
 
 def find_all_projects():
@@ -15,10 +17,14 @@ def find_project_by_id(project_id):
 
 
 def find_project_by_user_id(user_id):
-    update = md.db.session.query(md.Project, func.max(md.Update.new_value)).outerjoin(md.Update,
-                                                                                      md.Project.id == md.Update.project_id).group_by(
-        md.Project.id) \
-        .filter(md.Project.user_id == user_id).all()
+    p1 = aliased(md.Project)
+    update = md.db.session.query(p1, func.max(md.Update.new_value), func.max(md.Update.date)
+                                 , func.count(distinct(md.Support.id))) \
+        .outerjoin(md.Update, p1.id == md.Update.project_id) \
+        .outerjoin(md.Support, p1.id == md.Support.project_id) \
+        .group_by(p1.id) \
+        .filter(p1.user_id == user_id).all()
+
     return update
 
 

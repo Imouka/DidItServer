@@ -37,16 +37,29 @@ def get_all_user_project_by_id(user_id):
                    ["id", "user_id", "title", "logo", "description", "project_start_date",
                     "project_end_date", "objective", "pas"]}
         project["progression"] = projects_object[1] or 0
-        project["progression_percentage"] = float(project["progression"]) / float(project["objective"])
+        progression_percentage = float(project["progression"]) / float(project["objective"])
+        is_done = False
+        if progression_percentage >= 1:
+            progression_percentage = 1
+            is_done = True
+        project["progression_percentage"] = progression_percentage
+        project["is_done"] = is_done
+
         total_time = days_between(project["project_start_date"], project["project_end_date"])
         d = datetime.today().strftime('%Y/%m/%d')
         project_time = days_between(project["project_start_date"], d)
         time_progression = project_time / total_time
-        if time_progression < 0:
+        time_over = False
+        if time_progression <= 0:
             time_progression = 0
-        if time_progression > 1:
+            time_over = False
+        if time_progression >= 1:
             time_progression = 1
+            time_over = True
         project["time_progression"] = time_progression
+        project["time_over"] = time_over
+        project["last_update_date"] = projects_object[2] or 0
+        project["nb_supports"] = projects_object[3] or 0
         feeds = find_feed_by_project_id(project["id"])
 
         projects.append(project)
