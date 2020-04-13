@@ -1,4 +1,4 @@
-from .. import models as md
+
 from ..database_query.utils_friendship import isSendable, send, confirm, isConfirmable, isRefusable, refuse, \
     isUnfriendable, unfriend
 

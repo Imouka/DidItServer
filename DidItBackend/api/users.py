@@ -6,6 +6,7 @@ from ..database_query.utils_queries import find_user_by_id, find_all_users, find
 from datetime import datetime
 
 from ..request_handling.friendshipHandling import handleFriendAction
+from ..request_handling.logHandling import handle_user_login
 from ..request_handling.projectHandling import createNewProject
 
 
@@ -21,6 +22,19 @@ usersBp = Blueprint('users', __name__, url_prefix='/users')
 @usersBp.route('/<user_id>/')
 def get_user_by_id(user_id):
     result = find_user_by_id(user_id)
+    return result
+
+
+@usersBp.route('/<login_id>/login', methods=['POST'])
+def handle_login_with_login_id(login_id):
+    data = request.json
+    if data is None:
+        return {"status": "error", "message": "The request was not correctly formated"}
+    has_first_name = 'first_name' in data
+    has_last_name = 'last_name' in data
+    if not has_first_name or not has_last_name :
+        return {"status": "error", "message": "The request was not correctly formated"}
+    result = handle_user_login(login_id,data['first_name'],data['last_name'])
     return result
 
 

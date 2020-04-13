@@ -14,16 +14,16 @@ session = Session()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.String(200), nullable=False)
-    icon = db.Column(db.String(200), nullable=False)
+    login_id = db.Column(db.String(200), nullable=True)
+    description = db.Column(db.String(200), nullable=True)
+    icon = db.Column(db.String(200), nullable=True)
     first_name = db.Column(db.String(200), nullable=False)
     last_name = db.Column(db.String(200), nullable=False)
-    last_connection_date = db.Column(db.String(200), nullable=False)
+    last_connection_date = db.Column(db.String(200), nullable=True)
 
-    def __init__(self, description, password, icon, first_name, last_name, last_connection_date):
+    def __init__(self, login_id, first_name, last_name, description=None, icon=None, last_connection_date=None):
+        self.login_id = login_id
         self.description = description
-        self.password = password
         self.icon = icon
         self.first_name = first_name
         self.last_name = last_name
@@ -124,26 +124,26 @@ def init_db():
 
 def populate_db():
     # Add 2 users ("Adam","Eve")
-    db.session.add(User("Young Man that Is in Love", "Super Password", "Good looking picture", "Adam", "What's my name"
-                        , "yesterday"))
-    db.session.add(User("Young Woman that Is in Love", "Super Password", "Good looking picture", "Eve", "What's my name"
-                        , "a long time ago"))
-    db.session.add(User("Some random dude", "Super Password", "Amazingly nice picture", "Snake", "Snake"
-                        , "Damn"))
-    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "John", "Tommy"
-                        , "yesterday"))
-    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Tommy", "John"
-                        , "yesterday"))
-    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Emma", "Bort"
-                        , "yesterday"))
-    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Francois", "Mat"
-                        , "yesterday"))
-    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Lise", "Bort"
-                        , "yesterday"))
-    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Louise", "Mat"
-                        , "yesterday"))
-    db.session.add(User("I am a normal user", "Super Password", "This is a picture", "Mumu", "Juju"
-                        , "yesterday"))
+    db.session.add(User("qsdl", "Adam", "What's my name", description="Young Man that Is in Love", icon="Good looking picture"
+                        ,last_connection_date= "yesterday"))
+    db.session.add(User("qsdl", "Eve", "What's my name", description="Young Woman that Is in Love", icon="Good looking picture"
+                        , last_connection_date="a long time ago"))
+    db.session.add(User("qsdl", "Snake", "Snake", description="Some random dude", icon="Amazingly nice picture"
+                        , last_connection_date="Damn"))
+    db.session.add(User("qsdl", "John", "Tommy", description="I am a normal user", icon="This is a picture"
+                        ,last_connection_date= "yesterday"))
+    db.session.add(User("qsdl", "Tommy", "John", description="I am a normal user", icon="This is a picture"
+                        , last_connection_date="yesterday"))
+    db.session.add(User("qsdl", "Emma", "Bort", description="I am a normal user",icon= "This is a picture"
+                        ,last_connection_date= "yesterday"))
+    db.session.add(User("qsdl",  "Francois", "Mat", description="I am a normal user", icon="This is a picture"
+                        , last_connection_date="yesterday"))
+    db.session.add(User("qsdl", "Lise", "Bort", description="I am a normal user", icon="This is a picture"
+                        ,last_connection_date= "yesterday"))
+    db.session.add(User("qsdl",  "Louise", "Mat", description="I am a normal user",icon= "This is a picture"
+                        , last_connection_date="yesterday"))
+    db.session.add(User("qsdl",  "Mumu", "Juju", description="I am a normal user", icon="This is a picture"
+                        ,last_connection_date= "yesterday"))
     db.session.commit()
     lg.info('Database as been update with two news users!')
 

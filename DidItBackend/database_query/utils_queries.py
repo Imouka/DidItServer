@@ -1,4 +1,3 @@
-
 from flask import (
     abort,
     current_app)
@@ -47,9 +46,24 @@ def find_user_by_id(user_id):
     if user is None:
         abort(404)
     user = user.__dict__
-    user["nb_friends"]= friends_nb
+    user["nb_friends"] = friends_nb
     user.pop('_sa_instance_state', None)
     return user
+
+
+def exits_in_db(login_id):
+    user = md.db.session.query(md.User) \
+        .filter(md.User.login_id == login_id).count()
+    return user != 0
+
+
+def get_user_id_from_login_id(login_id):
+    user = md.db.session.query(md.User) \
+        .filter(md.User.login_id == login_id).one()
+    if user is None:
+        abort(404)
+    user = user.__dict__
+    return user["id"]
 
 
 def find_friends_by_user_id(user_id):
