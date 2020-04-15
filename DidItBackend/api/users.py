@@ -151,9 +151,9 @@ def get_all_users():
 
 @usersBp.route('/<user_id>/friend/<friend_id>')
 def get_friend_info(user_id, friend_id):
-    response = {"friend": find_user_by_id(friend_id), "friends": get_all_user_friends_by_id(friend_id),
-                "status": friendshipStatus(user_id, friend_id)}
+    response = {"friend": find_user_by_id(friend_id), "status": friendshipStatus(user_id, friend_id)}
+    response.update(get_all_user_friends_by_id(friend_id))
     if response["status"] == "ACCEPTED":
-        response["projects"] = get_all_user_project_by_id(friend_id)
+        response.update(get_all_user_project_by_id(friend_id))
     print(response)
     return response
