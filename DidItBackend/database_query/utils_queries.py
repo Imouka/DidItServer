@@ -42,11 +42,19 @@ def find_all_users():
 
 def find_user_by_id(user_id):
     user = md.User.query.get(user_id)
-    friends_nb = len(find_friends_by_user_id(user_id))
+    all_friends = find_friends_by_user_id(user_id)
+    print(all_friends)
+    friends_nb =0
+    for friend in all_friends:
+        friendship = friend[0].__dict__
+        if friendship["status"] == "ACCEPTED":
+            friends_nb += 1
+    projects_nb = len(find_project_by_user_id(user_id))
     if user is None:
         abort(404)
     user = user.__dict__
     user["nb_friends"] = friends_nb
+    user["nb_projects"] = projects_nb
     user.pop('_sa_instance_state', None)
     return user
 

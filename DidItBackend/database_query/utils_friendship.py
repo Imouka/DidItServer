@@ -66,3 +66,12 @@ def unfriend(user_id, friend_id):
     q.filter(md.Friendship.user_id_2 == friend_id, md.Friendship.user_id_1 == user_id).delete()
     md.db.session.commit()
     return {"status": "ok"}
+
+
+def friendshipStatus(user_id, friend_id):
+    result = md.db.engine.execute(text("SELECT status FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
+                                       "(user_id_1 = :id2 AND user_id_2 = :id1)"),
+                                  id1=user_id, id2=friend_id).fetchall()
+    if (len(result) == 0) or (len(result[0]) == 0):
+        return "strangerDanger"
+    return result[0][0]

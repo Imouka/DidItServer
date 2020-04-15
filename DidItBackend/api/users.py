@@ -1,6 +1,8 @@
 from flask import (
     Blueprint, abort, current_app, request
 )
+
+from ..database_query.utils_friendship import friendshipStatus
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
     find_friends_by_user_id, find_feed_by_project_id
 from datetime import datetime
@@ -13,7 +15,7 @@ from ..request_handling.projectHandling import createNewProject
 def days_between(d1, d2):
     d1 = datetime.strptime(d1, "%Y/%m/%d")
     d2 = datetime.strptime(d2, "%Y/%m/%d")
-    return abs((d2 - d1).days)+1
+    return abs((d2 - d1).days) + 1
 
 
 usersBp = Blueprint('users', __name__, url_prefix='/users')
@@ -32,9 +34,9 @@ def handle_login_with_login_id(login_id):
         return {"status": "error", "message": "The request was not correctly formated"}
     has_first_name = 'first_name' in data
     has_last_name = 'last_name' in data
-    if not has_first_name or not has_last_name :
+    if not has_first_name or not has_last_name:
         return {"status": "error", "message": "The request was not correctly formated"}
-    result = handle_user_login(login_id,data['first_name'],data['last_name'])
+    result = handle_user_login(login_id, data['first_name'], data['last_name'])
     return result
 
 
@@ -145,3 +147,13 @@ def get_all_users():
         users.append(user)
     dict_user = {"users": users}
     return dict_user
+
+
+@usersBp.route('/<user_id>/friend/<friend_id>')
+def get_friend_info(user_id, friend_id):
+    response = {"friend": find_user_by_id(friend_id), "friends": get_all_user_friends_by_id(friend_id),
+                "status": friendshipStatus(user_id, friend_id)}
+    if response["status"] == "ACCEPTED":
+        response["projects"] = get_all_user_project_by_id(friend_id)
+    print(response)
+    return response
