@@ -76,9 +76,11 @@ def friendshipStatus(user_id, friend_id):
         text("SELECT status,user_id_2 FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
              "(user_id_1 = :id2 AND user_id_2 = :id1)"),
         id1=user_id, id2=friend_id).fetchall()
+    print(user_id)
+    print(friend_id)
     if user_id == friend_id:
         return "MYSELF"
-    if (len(result) == 0) or (len(result[0]) == 0):
+    elif (len(result) == 0) or (len(result[0]) == 0):
         return "STRANGER_DANGER"
     if result[0][0] == "SENDED" and result[0][1] == int(user_id):
         return "RECEIVED"
