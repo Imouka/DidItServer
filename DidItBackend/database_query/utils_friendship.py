@@ -1,3 +1,6 @@
+from werkzeug.exceptions import abort
+
+from .utils_queries import find_friends_by_user_id
 from .. import models as md
 from sqlalchemy import or_, func, text
 from datetime import datetime
@@ -5,7 +8,7 @@ from datetime import datetime
 
 def isSendable(user_id, friend_id):
     result = md.db.engine.execute(text("SELECT * FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
-                                  "(user_id_1 = :id2 AND user_id_2 = :id1)"), id1=user_id, id2=friend_id) \
+                                       "(user_id_1 = :id2 AND user_id_2 = :id1)"), id1=user_id, id2=friend_id) \
         .fetchall()
     return len(result) == 0 & (user_id != friend_id)
 
@@ -53,7 +56,7 @@ def refuse(user_id, friend_id):
 
 def isUnfriendable(user_id, friend_id):
     result = md.db.engine.execute(text("SELECT status FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
-                                  "(user_id_1 = :id2 AND user_id_2 = :id1)"),
+                                       "(user_id_1 = :id2 AND user_id_2 = :id1)"),
                                   id1=user_id, id2=friend_id).fetchall()
     return (len(result) == 1) and (result[0][0] == 'ACCEPTED')
 
@@ -69,11 +72,36 @@ def unfriend(user_id, friend_id):
 
 
 def friendshipStatus(user_id, friend_id):
-    result = md.db.engine.execute(text("SELECT status,user_id_2 FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
-                                       "(user_id_1 = :id2 AND user_id_2 = :id1)"),
-                                  id1=user_id, id2=friend_id).fetchall()
+    result = md.db.engine.execute(
+        text("SELECT status,user_id_2 FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
+             "(user_id_1 = :id2 AND user_id_2 = :id1)"),
+        id1=user_id, id2=friend_id).fetchall()
     if (len(result) == 0) or (len(result[0]) == 0):
         return "strangerDanger"
     if result[0][0] == "SENDED" and result[0][1] == int(user_id):
         return "RECEIVED"
     return result[0][0]
+
+
+def friendListOfAFriend(user_id, friend_id):
+    all_friends = find_friends_by_user_id(friend_id)
+    print("all_friends")
+    print(all_friends)
+    if all_friends is None:
+        abort(404)
+    restricted_friends = []
+    friends = []
+    for friends_object in all_friends:
+        friendship = friends_object[0].__dict__
+        if friendship["status"] == "ACCEPTED":
+            restricted_friends.append(friends_object)
+    print("restricted_friends")
+    print(restricted_friends)
+    for friends_object in restricted_friends:
+        friend = friends_object[1].__dict__
+        friend = {your_key: friend[your_key] for your_key in ["first_name", "last_name", "icon", "id"]}
+        friendship = friendshipStatus(user_id, friend['id'])
+        friend.update({"status": friendship})
+        friends.append(friend)
+    dict_friend = {"friends": friends}
+    return dict_friend

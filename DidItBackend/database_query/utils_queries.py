@@ -44,7 +44,7 @@ def find_user_by_id(user_id):
     user = md.User.query.get(user_id)
     all_friends = find_friends_by_user_id(user_id)
     print(all_friends)
-    friends_nb =0
+    friends_nb = 0
     for friend in all_friends:
         friendship = friend[0].__dict__
         if friendship["status"] == "ACCEPTED":

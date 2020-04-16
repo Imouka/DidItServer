@@ -2,7 +2,7 @@ from flask import (
     Blueprint, abort, current_app, request
 )
 
-from ..database_query.utils_friendship import friendshipStatus
+from ..database_query.utils_friendship import friendshipStatus, friendListOfAFriend
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
     find_friends_by_user_id, find_feed_by_project_id
 from datetime import datetime
@@ -152,7 +152,7 @@ def get_all_users():
 @usersBp.route('/<user_id>/friend/<friend_id>')
 def get_friend_info(user_id, friend_id):
     response = {"friend": find_user_by_id(friend_id), "status": friendshipStatus(user_id, friend_id)}
-    response.update(get_all_user_friends_by_id(friend_id))
+    response.update(friendListOfAFriend(user_id, friend_id))
     if response["status"] == "ACCEPTED":
         response.update(get_all_user_project_by_id(friend_id))
     print(response)
