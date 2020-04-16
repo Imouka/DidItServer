@@ -69,9 +69,11 @@ def unfriend(user_id, friend_id):
 
 
 def friendshipStatus(user_id, friend_id):
-    result = md.db.engine.execute(text("SELECT status FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
+    result = md.db.engine.execute(text("SELECT status,user_id_2 FROM Friendship WHERE (user_id_1 = :id1 AND user_id_2 = :id2) OR "
                                        "(user_id_1 = :id2 AND user_id_2 = :id1)"),
                                   id1=user_id, id2=friend_id).fetchall()
     if (len(result) == 0) or (len(result[0]) == 0):
         return "strangerDanger"
+    if result[0][0] == "SENDED" and result[0][1] == int(user_id):
+        return "RECEIVED"
     return result[0][0]
