@@ -21,6 +21,7 @@ def send(user_id, friend_id):
 def isConfirmable(user_id, friend_id):
     result = md.db.engine.execute(text("SELECT status FROM Friendship WHERE (user_id_1 = :id2) AND (user_id_2 = :id1) ")
                                   , id1=user_id, id2=friend_id).fetchall()
+    print(result)
     return (len(result) == 1) and (result[0][0] == 'SENDED')
 
 
@@ -37,16 +38,15 @@ def confirm(user_id, friend_id):
 
 
 def isRefusable(user_id, friend_id):
-    result = md.db.engine.execute(text("SELECT * FROM Friendship WHERE (user_id_1 = :id2 AND user_id_2 = :id1)")
+    result = md.db.engine.execute(text("SELECT status FROM Friendship WHERE (user_id_1 = :id2 AND user_id_2 = :id1)")
                                   , id1=user_id, id2=friend_id).fetchall()
+    print(result)
     return (len(result) == 1) and (result[0][0] == 'SENDED')
 
 
 def refuse(user_id, friend_id):
     q = md.db.session.query(md.Friendship)
-    q = q.filter(md.Friendship.user_id_1 == friend_id, md.Friendship.user_id_2 == user_id)
-    record = q.one()
-    record.delete()
+    q.filter(md.Friendship.user_id_1 == friend_id, md.Friendship.user_id_2 == user_id).delete()
     md.db.session.commit()
     return {"status": "ok"}
 
