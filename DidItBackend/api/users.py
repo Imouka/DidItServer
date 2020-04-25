@@ -4,7 +4,7 @@ from flask import (
 
 from ..database_query.utils_friendship import friendshipStatus, friendListOfAFriend
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
-    find_friends_by_user_id, find_feed_by_project_id
+    find_friends_by_user_id, find_feed_by_project_id, find_feed_by_user_id
 from datetime import datetime
 
 from ..request_handling.friendshipHandling import handleFriendAction
@@ -76,8 +76,7 @@ def get_all_user_project_by_id(user_id):
         project["time_over"] = time_over
         project["last_update_date"] = projects_object[2] or 0
         project["nb_supports"] = projects_object[3] or 0
-        feeds = find_feed_by_project_id(project["id"])
-
+        project.update(find_feed_by_project_id(project["id"]))
         projects.append(project)
     dict_projects = {"projects": projects}
     return dict_projects
@@ -157,3 +156,8 @@ def get_friend_info(user_id, friend_id):
         response.update(get_all_user_project_by_id(friend_id))
     print(response)
     return response
+
+
+@usersBp.route('/<user_id>/feed')
+def get_feed(user_id):
+    return find_feed_by_user_id(user_id)

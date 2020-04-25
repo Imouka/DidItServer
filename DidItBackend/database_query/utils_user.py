@@ -10,3 +10,4 @@ def create_new_user(login_id, first_name, last_name):
     md.db.session.commit()
     return new_user.id
 
+
