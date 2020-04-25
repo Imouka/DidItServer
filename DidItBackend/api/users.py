@@ -63,7 +63,10 @@ def get_all_user_project_by_id(user_id):
 
         total_time = days_between(project["project_start_date"], project["project_end_date"])
         d = datetime.today().strftime('%Y/%m/%d')
-        project_time = days_between(project["project_start_date"], d)
+        if d < project["project_start_date"]:
+            project_time = 0
+        else:
+            project_time = days_between(project["project_start_date"], d)
         time_progression = project_time / total_time
         time_over = False
         if time_progression <= 0:
