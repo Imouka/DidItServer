@@ -13,7 +13,7 @@ def create_project(user_id, title, logo, description, project_start_date, projec
     md.db.session.flush()
     md.db.session.refresh(new_project)
     md.db.session.commit()
-    first_update = md.Update(user_id, new_project.id, date, 0.0, 0.0, "Project creation")
+    first_update = md.Update(user_id, new_project.id, date, None, None, "Project creation")
     md.db.session.add(first_update)
     md.db.session.commit()
     return new_project.id

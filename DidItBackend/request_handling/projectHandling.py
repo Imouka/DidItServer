@@ -48,6 +48,9 @@ def addUpdateToProject(project_id, update_data):
         current_app.logger.info(update_data['progression'])
         if update_data['progression'] is not None:
             new_value = old_value + update_data['progression']
+        if update_data['progression'] is None:
+            new_value = None
+            old_value = None
     update_id = add_update_to_project(project_id, user_id, date, message, old_value, new_value)
     return {"status": "ok", "message": "The update has been saved", "id": update_id}
 
