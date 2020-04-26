@@ -115,8 +115,10 @@ def find_feed_by_project_id(project_id):
         user_dict = update[1].__dict__
         update_dict.update(user_dict)
         update_dict = keep_from_dict(update_dict, ["user_id", "message", "old_value", "new_value", "date"])
-        update_dict["old_value"] = update_dict["old_value"]/target_value
-        update_dict["new_value"] = update_dict["new_value"] / target_value
+        if not update_dict["old_value"] is None:
+            update_dict["old_value"] = update_dict["old_value"] / target_value
+        if not update_dict["new_value"] is None:
+            update_dict["new_value"] = update_dict["new_value"] / target_value
         update_dict["TYPE"] = "UPDATE"
         feed.append(update_dict)
 
@@ -159,8 +161,10 @@ def find_last_update(project_id):
                                  ["message", "old_value", "new_value", "date"])
 
     target_value = update[1].__dict__["objective"]
-    update_dict["old_value"] = update_dict["old_value"]/target_value
-    update_dict["new_value"] = update_dict["new_value"] / target_value
+    if not update_dict["old_value"] is None:
+        update_dict["old_value"] = update_dict["old_value"] / target_value
+    if not update_dict["new_value"] is None:
+        update_dict["new_value"] = update_dict["new_value"] / target_value
     return update_dict
 
 
