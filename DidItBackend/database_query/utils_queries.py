@@ -105,12 +105,18 @@ def find_feed_by_project_id(project_id):
         .filter(md.Support.project_id == project_id) \
         .filter(md.User.id == md.Support.user_id).all()
 
+    project = md.db.session.query(md.Project) \
+        .filter(md.Project.id == project_id).first()
+
+    target_value = project.__dict__["objective"]
     feed = []
     for update in update_select:
         update_dict = update[0].__dict__
         user_dict = update[1].__dict__
         update_dict.update(user_dict)
         update_dict = keep_from_dict(update_dict, ["user_id", "message", "old_value", "new_value", "date"])
+        update_dict["old_value"] = update_dict["old_value"]/target_value
+        update_dict["new_value"] = update_dict["new_value"] / target_value
         update_dict["TYPE"] = "UPDATE"
         feed.append(update_dict)
 
@@ -145,10 +151,17 @@ def find_feed_by_project_id(project_id):
 
 
 def find_last_update(project_id):
-    update = md.db.session.query(md.Update) \
+    update = md.db.session.query(md.Update, md.Project) \
         .filter(md.Update.project_id == project_id) \
+        .filter(md.Project.id == project_id) \
         .order_by(md.Update.id.desc()).first()
-    return update
+    update_dict = keep_from_dict(update[0].__dict__,
+                                 ["message", "old_value", "new_value", "date"])
+
+    target_value = update[1].__dict__["objective"]
+    update_dict["old_value"] = update_dict["old_value"]/target_value
+    update_dict["new_value"] = update_dict["new_value"] / target_value
+    return update_dict
 
 
 def find_last_comments(project_id):
@@ -186,15 +199,14 @@ def find_feed_by_user_id(user_id):
         project_dict = keep_from_dict(project[0].__dict__, ["logo", "id", "title"])
         user_dict = keep_from_dict(project[1].__dict__, ["id", "icon", "first_name", "last_name"])
 
-        tmp_update = find_last_update(project_dict["id"]).__dict__
-        update_dict = keep_from_dict(tmp_update,
-                                     ["message", "old_value", "new_value", "date"])
+        update_dict = find_last_update(project_dict["id"])
 
         max_date = max(max_date, update_dict["date"])
         comments_list = find_last_comments(project_dict["id"])
         comments_res = []
         for comment in comments_list:
-            tmp_comment = keep_from_dict(comment[0].__dict__, ["message", "user_id", "date"])
+            tmp_comment = keep_from_dict(comment[0].__dict__, ["id", "message", "user_id", "date"])
+            tmp_comment["comment_id"] = tmp_comment.pop("id")
             tmp_user = keep_from_dict(comment[1].__dict__, ["first_name", "last_name", "icon"])
             max_date = max(max_date, tmp_comment["date"])
             tmp_comment.update(tmp_user)
