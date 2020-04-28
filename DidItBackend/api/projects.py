@@ -2,6 +2,7 @@ from flask import (
     Blueprint, abort, request
 )
 
+from ..Utils.utils import datetime_to_pretty_date
 from ..database_query.utils_project import delete_project
 from ..database_query.utils_queries import find_project_by_id, find_all_projects, find_feed_by_project_id, \
     keep_from_dict
@@ -18,8 +19,7 @@ def get_project_by_id(project_id):
     project = result.__dict__
     project = keep_from_dict(project, ["description", "id", "logo", "objective", "pas", "project_end_date",
                                        "project_start_date", "title", "user_id"])
-    project["project_end_date"] = project["project_end_date"].strftime("%Y-%m-%d %H:%M:%S")
-    project["project_start_date"] = project["project_start_date"].strftime("%Y-%m-%d %H:%M:%S")
+    datetime_to_pretty_date(project)
     return project
 
 
@@ -34,8 +34,7 @@ def get_all_projects():
         project = project_object.__dict__
         project = keep_from_dict(project, ["description", "id", "logo", "objective", "pas", "project_end_date",
                                            "project_start_date", "title", "user_id"])
-        project["project_end_date"] = project["project_end_date"].strftime("%Y-%m-%d %H:%M:%S")
-        project["project_start_date"] = project["project_start_date"].strftime("%Y-%m-%d %H:%M:%S")
+        datetime_to_pretty_date(project)
         projects.append(project)
     dict_project = {"projects": projects}
     return dict_project

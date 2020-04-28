@@ -2,6 +2,7 @@ from flask import (
     Blueprint, abort, current_app, request
 )
 
+from ..Utils.utils import datetime_to_pretty_date
 from ..database_query.utils_friendship import friendshipStatus, friendListOfAFriend
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
     find_friends_by_user_id, find_feed_by_project_id, find_feed_by_user_id, keep_from_dict
@@ -73,14 +74,12 @@ def get_all_user_project_by_id(user_id):
         if time_progression >= 1:
             time_progression = 1
             time_over = True
-        project["project_end_date"] = project["project_end_date"].strftime("%Y-%m-%d %H:%M:%S")
-        project["project_start_date"] = project["project_start_date"].strftime("%Y-%m-%d %H:%M:%S")
         project["time_progression"] = time_progression
         project["time_over"] = time_over
         project["last_update_date"] = projects_object[2] or 0
-        project["last_update_date"] = project["last_update_date"].strftime("%Y-%m-%d %H:%M:%S")
         project["nb_supports"] = projects_object[3] or 0
         project.update(find_feed_by_project_id(project["id"]))
+        datetime_to_pretty_date(project)
         projects.append(project)
     dict_projects = {"projects": projects}
     return dict_projects
@@ -100,8 +99,8 @@ def get_all_user_friends_by_id(user_id):
         if (friendship['user_id_2'] == int(user_id)) & (friendship["status"] == 'SENDED'):
             friendship['status'] = 'RECEIVED'
         friendship = keep_from_dict(friendship, ["request_date", "status"])
-        friendship["request_date"] = friendship["request_date"].strftime("%Y-%m-%d %H:%M:%S")
         friend.update(friendship)
+        datetime_to_pretty_date(friend)
         friends.append(friend)
     dict_friend = {"friends": friends}
     return dict_friend
@@ -149,7 +148,7 @@ def get_all_users():
         user = user_object.__dict__
         user = keep_from_dict(user, ["description", "first_name", "icon", "id", "last_connection_date", "last_name",
                                      "login_id"])
-        user['last_connection_date'] = user['last_connection_date'].strftime("%Y-%m-%d %H:%M:%S")
+        datetime_to_pretty_date(user)
         users.append(user)
     dict_user = {"users": users}
     return dict_user
