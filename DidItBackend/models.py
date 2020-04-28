@@ -166,57 +166,45 @@ def populate_db():
     lg.info('Database as been update with 3 friendships!')
 
     # Add 3 Project by user
-    create_project(1, "Invite Eve to dinner twice a week", "Nice picture", "I would like to "
-                                                                           "go out a lot with Eve"
-                   , datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 2, 1, "1995-12-30 15:20:12")
+    create_project(1, "Invite Eve to dinner twice a week", "Nice picture",
+                   "I would like to go out a lot with Eve", '2019-12-01 10:10:10', '2020-12-30 10:10:10', 2, 1,
+                   "1995-12-30 15:20:12")
     create_project(1, "Invite Eve to dancing twice a week", "Nice picture", "I would to go out a lot with Eve"
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
-    create_project(1, "Invite Eve to the theater twice a week", "Nice picture", "I would to go"
-                                                                                " out a lot with Eve"
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 2, 1, "1995-12-30 15:20:12")
-    create_project(2, "Try out new fruits", "Nice picture", "I'll try to go vegan"
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
+    create_project(1, "Invite Eve to the theater twice a week", "Nice picture", "I would to go out a lot with Eve"
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 2, 1, "1995-12-30 15:20:12")
+    create_project(2, "Try out new fruits", "Nice picture", "I'll try to go vegan" ,  '2019-12-01 10:10:10',
+                   '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
     create_project(2, "Get some sleep", "Nice picture", "I love to sleep so I decided to sleep"
                                                         " at least 10 hours"
                                                         " a day during one week"
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 70, 10, "1995-12-30 15:20:12")
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 70, 10, "1995-12-30 15:20:12")
     create_project(2, "Find some idea for funny projects", "Nice picture", "I'm running out of funny project to"
                                                                            "put in the database so I really"
                                                                            "need to work hard on this one"
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
+                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
     create_project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
     create_project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   , datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
+                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
     create_project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
+                   , '2019-12-01 10:10:10',  '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
     create_project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
+                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
     create_project(2, "Finish the list of projects", "Nice picture", "Coucou je suis très content poney bleu"
-                   ,  datetime.datetime.strptime('2019-12-01 10:10:10', '%Y-%m-%d %H:%M:%S'),
-                   datetime.datetime.strptime('2020-12-30 10:10:10', '%Y-%m-%d %H:%M:%S'), 10, 1, "1995-12-30 15:20:12")
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12")
     db.session.commit()
     lg.info('Database as been update with one project!')
 
