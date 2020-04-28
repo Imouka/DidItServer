@@ -78,6 +78,7 @@ def get_all_user_project_by_id(user_id):
         project["time_progression"] = time_progression
         project["time_over"] = time_over
         project["last_update_date"] = projects_object[2] or 0
+        project["last_update_date"] = project["last_update_date"].strftime("%Y-%m-%d %H:%M:%S")
         project["nb_supports"] = projects_object[3] or 0
         project.update(find_feed_by_project_id(project["id"]))
         projects.append(project)
