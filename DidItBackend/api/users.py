@@ -4,7 +4,7 @@ from flask import (
 
 from ..database_query.utils_friendship import friendshipStatus, friendListOfAFriend
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
-    find_friends_by_user_id, find_feed_by_project_id, find_feed_by_user_id
+    find_friends_by_user_id, find_feed_by_project_id, find_feed_by_user_id, keep_from_dict
 from datetime import datetime
 
 from ..request_handling.friendshipHandling import handleFriendAction
@@ -13,8 +13,6 @@ from ..request_handling.projectHandling import createNewProject
 
 
 def days_between(d1, d2):
-    d1 = datetime.strptime(d1, "%Y/%m/%d")
-    d2 = datetime.strptime(d2, "%Y/%m/%d")
     return abs((d2 - d1).days) + 1
 
 
@@ -36,7 +34,7 @@ def handle_login_with_login_id(login_id):
     has_last_name = 'last_name' in data
     if not has_first_name or not has_last_name:
         return {"status": "error", "message": "The request was not correctly formated"}
-    result = handle_user_login(login_id, data['first_name'], data['last_name'])
+    result = handle_user_login(login_id, data['first_name'], data['last_name'], data['date'])
     return result
 
 
@@ -62,7 +60,7 @@ def get_all_user_project_by_id(user_id):
         project["is_done"] = is_done
 
         total_time = days_between(project["project_start_date"], project["project_end_date"])
-        d = datetime.today().strftime('%Y/%m/%d')
+        d = datetime.today()
         if d < project["project_start_date"]:
             project_time = 0
         else:
@@ -75,6 +73,8 @@ def get_all_user_project_by_id(user_id):
         if time_progression >= 1:
             time_progression = 1
             time_over = True
+        project["project_end_date"] = project["project_end_date"].strftime("%Y-%m-%d %H:%M:%S")
+        project["project_start_date"] = project["project_start_date"].strftime("%Y-%m-%d %H:%M:%S")
         project["time_progression"] = time_progression
         project["time_over"] = time_over
         project["last_update_date"] = projects_object[2] or 0
@@ -98,7 +98,8 @@ def get_all_user_friends_by_id(user_id):
         friendship = friends_object[0].__dict__
         if (friendship['user_id_2'] == int(user_id)) & (friendship["status"] == 'SENDED'):
             friendship['status'] = 'RECEIVED'
-        friendship = {your_key: friendship[your_key] for your_key in ["request_date", "status"]}
+        friendship = keep_from_dict(friendship, ["request_date", "status"])
+        friendship["request_date"] = friendship["request_date"].strftime("%Y-%m-%d %H:%M:%S")
         friend.update(friendship)
         friends.append(friend)
     dict_friend = {"friends": friends}
@@ -145,7 +146,9 @@ def get_all_users():
     print(result)
     for user_object in result:
         user = user_object.__dict__
-        user.pop('_sa_instance_state', None)
+        user = keep_from_dict(user, ["description", "first_name", "icon", "id", "last_connection_date", "last_name",
+                                     "login_id"])
+        user['last_connection_date'] = user['last_connection_date'].strftime("%Y-%m-%d %H:%M:%S")
         users.append(user)
     dict_user = {"users": users}
     return dict_user

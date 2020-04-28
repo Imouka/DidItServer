@@ -1,3 +1,5 @@
+import datetime
+
 from flask import (
     abort,
     current_app)
@@ -57,9 +59,11 @@ def find_user_by_id(user_id):
     if user is None:
         abort(404)
     user = user.__dict__
+    user = keep_from_dict(user, ["description",  "first_name", "icon", "id", "last_connection_date", "last_name",
+                                 "login_id"])
+    user["last_connection_date"] = user["last_connection_date"].strftime("%Y-%m-%d %H:%M:%S")
     user["nb_friends"] = friends_nb
     user["nb_projects"] = projects_nb
-    user.pop('_sa_instance_state', None)
     return user
 
 
@@ -115,6 +119,7 @@ def find_feed_by_project_id(project_id):
         user_dict = update[1].__dict__
         update_dict.update(user_dict)
         update_dict = keep_from_dict(update_dict, ["user_id", "message", "old_value", "new_value", "date"])
+        update_dict["date"] = update_dict["date"].strftime("%Y-%m-%d %H:%M:%S")
         if not update_dict["old_value"] is None:
             update_dict["old_value"] = update_dict["old_value"] / target_value
         if not update_dict["new_value"] is None:
@@ -127,6 +132,7 @@ def find_feed_by_project_id(project_id):
         user_dict = comment[1].__dict__
         comment_dict.update(user_dict)
         comment_dict = keep_from_dict(comment_dict, ["user_id", "first_name", "last_name", "icon", "message", "date"])
+        comment_dict["date"] = comment_dict["date"].strftime("%Y-%m-%d %H:%M:%S")
         comment_dict["TYPE"] = "COMMENT"
         feed.append(comment_dict)
 
@@ -135,6 +141,7 @@ def find_feed_by_project_id(project_id):
         user_dict = support[1].__dict__
         support_dict.update(user_dict)
         support_dict = keep_from_dict(support_dict, ["user_id", "first_name", "last_name", "icon", "date"])
+        support_dict["date"] = support_dict["date"].strftime("%Y-%m-%d %H:%M:%S")
         support_dict["TYPE"] = "SUPPORT"
         feed.append(support_dict)
 
@@ -198,7 +205,8 @@ def find_feed_by_user_id(user_id):
 
     feed = []
     i = 0
-    max_date = "1900/01/01"
+
+    max_date = datetime.datetime.strptime("1900-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
     for project in project_selected:
         project_dict = keep_from_dict(project[0].__dict__, ["logo", "id", "title"])
         user_dict = keep_from_dict(project[1].__dict__, ["id", "icon", "first_name", "last_name"])
@@ -206,6 +214,7 @@ def find_feed_by_user_id(user_id):
         update_dict = find_last_update(project_dict["id"])
 
         max_date = max(max_date, update_dict["date"])
+        update_dict["date"] = update_dict["date"].strftime("%Y-%m-%d %H:%M:%S")
         comments_list = find_last_comments(project_dict["id"])
         comments_res = []
         for comment in comments_list:
@@ -214,9 +223,10 @@ def find_feed_by_user_id(user_id):
             tmp_user = keep_from_dict(comment[1].__dict__, ["first_name", "last_name", "icon"])
             max_date = max(max_date, tmp_comment["date"])
             tmp_comment.update(tmp_user)
+            tmp_comment["date"] = tmp_comment["date"].strftime("%Y-%m-%d %H:%M:%S")
             comments_res.append(tmp_comment)
         res = {"project": project_dict, "user": user_dict, "comments": comments_res, "update": update_dict, "id": i,
-               "date": max_date}
+               "date": max_date.strftime("%Y-%m-%d %H:%M:%S")}
         i += 1
         feed.append(res)
 

@@ -3,7 +3,8 @@ from flask import (
 )
 
 from ..database_query.utils_project import delete_project
-from ..database_query.utils_queries import find_project_by_id, find_all_projects, find_feed_by_project_id
+from ..database_query.utils_queries import find_project_by_id, find_all_projects, find_feed_by_project_id, \
+    keep_from_dict
 from ..request_handling.projectHandling import modifyProject, addUpdateToProject, supportProject, commentProject
 
 projectsBp = Blueprint('projects', __name__, url_prefix='/projects')
@@ -15,7 +16,10 @@ def get_project_by_id(project_id):
     if result is None:
         abort(404)
     project = result.__dict__
-    project.pop('_sa_instance_state', None)
+    project = keep_from_dict(project, ["description", "id", "logo", "objective", "pas", "project_end_date",
+                                       "project_start_date", "title", "user_id"])
+    project["project_end_date"] = project["project_end_date"].strftime("%Y-%m-%d %H:%M:%S")
+    project["project_start_date"] = project["project_start_date"].strftime("%Y-%m-%d %H:%M:%S")
     return project
 
 
@@ -28,7 +32,10 @@ def get_all_projects():
     print(result)
     for project_object in result:
         project = project_object.__dict__
-        project.pop('_sa_instance_state', None)
+        project = keep_from_dict(project, ["description", "id", "logo", "objective", "pas", "project_end_date",
+                                           "project_start_date", "title", "user_id"])
+        project["project_end_date"] = project["project_end_date"].strftime("%Y-%m-%d %H:%M:%S")
+        project["project_start_date"] = project["project_start_date"].strftime("%Y-%m-%d %H:%M:%S")
         projects.append(project)
     dict_project = {"projects": projects}
     return dict_project
@@ -44,7 +51,7 @@ def delete_project_by_id(project_id):
 
 
 @projectsBp.route('/<project_id>/modify', methods=['POST'])
-def create_new_project(project_id):
+def modify_project(project_id):
     data = request.json
     if data is None:
         return {"status": "error", "message": "The request was not correctly formatted"}
@@ -100,9 +107,3 @@ def add_comment_to_project(project_id):
         return commentProject(project_id, data)
     else:
         return {"status": "error", "message": "The request was not correctly formatted"}
-
-
-@projectsBp.route('/<project_id>/test', methods=['GET'])
-def test(project_id):
-    return find_feed_by_project_id(project_id)
-
