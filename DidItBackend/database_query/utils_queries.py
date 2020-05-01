@@ -51,12 +51,15 @@ def find_all_users():
 def find_user_by_id(user_id):
     user = md.User.query.get(user_id)
     all_friends = find_friends_by_user_id(user_id)
-    print(all_friends)
     friends_nb = 0
+    friends_waiting = 0
     for friend in all_friends:
         friendship = friend[0].__dict__
         if friendship["status"] == "ACCEPTED":
             friends_nb += 1
+        elif friendship["status"] == "SENDED" and str(friendship["user_id_2"]) == user_id:
+            friends_waiting += 1
+        print(friends_waiting)
     projects_nb = len(find_project_by_user_id(user_id))
     if user is None:
         abort(404)
@@ -65,6 +68,7 @@ def find_user_by_id(user_id):
                                  "login_id"])
     user["nb_friends"] = friends_nb
     user["nb_projects"] = projects_nb
+    user["nb_requests"] = friends_waiting
     datetime_to_pretty_date(user)
     return user
 

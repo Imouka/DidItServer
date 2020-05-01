@@ -87,8 +87,6 @@ def friendshipStatus(user_id, friend_id):
 
 def friendListOfAFriend(user_id, friend_id):
     all_friends = find_friends_by_user_id(friend_id)
-    print("all_friends")
-    print(all_friends)
     if all_friends is None:
         abort(404)
     restricted_friends = []
@@ -97,8 +95,6 @@ def friendListOfAFriend(user_id, friend_id):
         friendship = friends_object[0].__dict__
         if friendship["status"] == "ACCEPTED":
             restricted_friends.append(friends_object)
-    print("restricted_friends")
-    print(restricted_friends)
     for friends_object in restricted_friends:
         friend = friends_object[1].__dict__
         friend = {your_key: friend[your_key] for your_key in ["first_name", "last_name", "icon", "id"]}

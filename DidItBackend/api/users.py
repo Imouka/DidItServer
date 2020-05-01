@@ -8,6 +8,7 @@ from ..database_query.utils_queries import find_user_by_id, find_all_users, find
     find_friends_by_user_id, find_feed_by_project_id, find_feed_by_user_id, keep_from_dict
 from datetime import datetime
 
+from ..database_query.utils_search import searchInFriendList, searchInAllDataBase
 from ..request_handling.friendshipHandling import handleFriendAction
 from ..request_handling.logHandling import handle_user_login
 from ..request_handling.projectHandling import createNewProject
@@ -167,3 +168,19 @@ def get_friend_info(user_id, friend_id):
 @usersBp.route('/<user_id>/feed')
 def get_feed(user_id):
     return find_feed_by_user_id(user_id)
+
+
+@usersBp.route('/<user_id>/search', methods=['POST'])
+def get_search_result(user_id):
+    data = request.json
+    if data is None:
+        return {"status": "error", "message": "The request was not correctly formatted"}
+    # check valid data
+    has_search_entry = 'search_entry' in data
+    has_friend_id = 'friend_id' in data
+    if has_friend_id & has_search_entry:
+        return searchInFriendList(data["search_entry"], user_id, data["friend_id"])
+    elif has_search_entry:
+        return searchInAllDataBase(data["search_entry"], user_id)
+    else:
+        return {"status": "error", "message": "The request was not correctly formatted"}
