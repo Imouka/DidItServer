@@ -23,14 +23,16 @@ def searchInFriendList(entry, user_id, friend_id):
         
     first_name = "{}%".format(' '.join(split_entry))
     last_name = "{}%".format(' '.join(split_entry))
-    valid_first_name += (md.db.session.query(md.User).filter(md.User.first_name.like(first_name)).filter(md.User.id.in_(friends_id)).all())
-    valid_last_name += (md.db.session.query(md.User).filter(md.User.last_name.like(last_name)).all())
+    valid_first_name += (md.db.session.query(md.User).filter(func.lower(md.User.first_name).like(func.lower(first_name)))
+                         .filter(md.User.id.in_(friends_id)).all())
+    valid_last_name += (md.db.session.query(md.User).filter(func.lower(md.User.last_name).like(func.lower(last_name))).all())
 
     for i in range(1, len(split_entry)):
         first_name = "{}%".format(' '.join(split_entry[: i]))
         last_name = "{}%".format(' '.join(split_entry[i:]))
         valid_first_and_last_name += md.db.session.query(md.User) \
-            .filter(and_(md.User.first_name.like(first_name), md.User.last_name.like(last_name))).all()
+            .filter(and_(func.lower(md.User.first_name).like(func.lower(first_name)),
+                         func.lower(md.User.last_name).like(func.lower(last_name)))).all()
 
     return getSearchResult(valid_first_and_last_name, valid_first_name, valid_last_name, user_id)
 
@@ -44,14 +46,15 @@ def searchInAllDataBase(entry, user_id):
 
     first_name = "{}%".format(' '.join(split_entry))
     last_name = "{}%".format(' '.join(split_entry))
-    valid_first_name += (md.db.session.query(md.User).filter(md.User.first_name.like(first_name)).all())
-    valid_last_name += (md.db.session.query(md.User).filter(md.User.last_name.like(last_name)).all())
+    valid_first_name += (md.db.session.query(md.User).filter(func.lower(md.User.first_name).like(func.lower(first_name))).all())
+    valid_last_name += (md.db.session.query(md.User).filter(func.lower(md.User.last_name).like(func.lower(last_name))).all())
 
     for i in range(1, len(split_entry)):
         first_name = "{}%".format(' '.join(split_entry[: i]))
         last_name = "{}%".format(' '.join(split_entry[i:]))
         valid_first_and_last_name += md.db.session.query(md.User) \
-                        .filter(and_(md.User.first_name.like(first_name), md.User.last_name.like(last_name))).all()
+                        .filter(and_(func.lower(md.User.first_name).like(func.lower(first_name)),
+                                     func.lower(md.User.last_name).like(func.lower(last_name)))).all()
 
     return getSearchResult(valid_first_and_last_name,valid_first_name,valid_last_name, user_id)
 
