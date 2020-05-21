@@ -131,26 +131,35 @@ def init_db():
 def populate_db():
     # Add 2 users ("Adam","Eve")
     db.session.add(
-        User("qsdl", "Adam", "What's my name", description="Young Man that Is in Love", icon="Good looking picture"
+        User("qsdl", "Adam", "What's my name", description="Young Man that Is in Love",
+             icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/1.png?v0"
              , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
     db.session.add(
-        User("qsdl", "Eve", "What's my name", description="Young Woman that Is in Love", icon="Good looking picture"
+        User("qsdl", "Eve", "What's my name", description="Young Woman that Is in Love", icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/2.png?v0"
              , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "Snake", "Snake", description="Some random dude", icon="Amazingly nice picture"
+    db.session.add(User("qsdl", "Snake", "Snake", description="Some random dude",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/3.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "John", "Tommy", description="I am a normal user", icon="This is a picture"
+    db.session.add(User("qsdl", "John", "Tommy", description="I am a normal user",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/4.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "Tommy", "John", description="I am a normal user", icon="This is a picture"
+    db.session.add(User("qsdl", "Tommy", "John", description="I am a normal user",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/5.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "Emma", "Bort", description="I am a normal user", icon="This is a picture"
+    db.session.add(User("qsdl", "Emma", "Bort", description="I am a normal user",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/6.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "Francois", "Mat", description="I am a normal user", icon="This is a picture"
+    db.session.add(User("qsdl", "Francois", "Mat", description="I am a normal user",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/7.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "Lise", "Bort", description="I am a normal user", icon="This is a picture"
+    db.session.add(User("qsdl", "Lise", "Bort", description="I am a normal user",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/8.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "Louise", "Mat", description="I am a normal user", icon="This is a picture"
+    db.session.add(User("qsdl", "Louise", "Mat", description="I am a normal user",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/9.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
-    db.session.add(User("qsdl", "Mumu", "Juju", description="I am a normal user", icon="This is a picture"
+    db.session.add(User("qsdl", "Mumu", "Juju", description="I am a normal user",
+                        icon="https://diditapp.s3.eu-west-3.amazonaws.com/user_icons/10.png?v0"
                         , last_connection_date=datetime.datetime.strptime('2000-12-30 23:20:00', '%Y-%m-%d %H:%M:%S')))
     db.session.commit()
     lg.info('Database as been update with two news users!')

@@ -4,9 +4,6 @@ from flask import (
 import os
 from flask import Flask, flash, request, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
-import boto3
-from botocore.exceptions import NoCredentialsError
-from botocore.exceptions import ClientError
 from ..Utils.utils import datetime_to_pretty_date
 from ..database_query.utils_project import delete_project, modify_project_image_uri
 from ..Utils.utils_aws import upload_file, allowed_file

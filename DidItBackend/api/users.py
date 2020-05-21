@@ -1,8 +1,10 @@
 from flask import (
     Blueprint, abort, current_app, request
 )
-
+from werkzeug.utils import secure_filename
 from ..Utils.utils import datetime_to_pretty_date
+from ..database_query.utils_user import modify_user_image_uri
+from ..Utils.utils_aws import upload_file, allowed_file
 from ..database_query.utils_friendship import friendshipStatus, friendListOfAFriend
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
     find_friends_by_user_id, find_feed_by_project_id, find_feed_by_user_id, keep_from_dict
@@ -184,3 +186,26 @@ def get_search_result(user_id):
         return searchInAllDataBase(data["search_entry"], user_id)
     else:
         return {"status": "error", "message": "The request was not correctly formatted"}
+
+
+
+@usersBp.route('/<user_id>/modifyimage', methods=['POST'])
+def modify_user_image(user_id):
+    if request.method == 'POST':
+        # check if the post request has the file part
+        print(request.files)
+        if 'file' not in request.files:
+            flash('No file part')
+            return "No File Part"
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return "emptyfilename"
+        if file and allowed_file(file.filename):
+            secure_filename(file.filename)
+            filename = "user_icons/" + user_id + ".png"
+            if upload_file(file, filename):
+                modify_user_image_uri(user_id)
+            return "OK"
