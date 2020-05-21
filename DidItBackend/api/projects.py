@@ -8,7 +8,8 @@ import boto3
 from botocore.exceptions import NoCredentialsError
 from botocore.exceptions import ClientError
 from ..Utils.utils import datetime_to_pretty_date
-from ..database_query.utils_project import delete_project, upload_file
+from ..database_query.utils_project import delete_project, modify_project_image_uri
+from ..Utils.utils_aws import upload_file, allowed_file
 from ..database_query.utils_queries import find_project_by_id, find_all_projects, find_feed_by_project_id, \
     keep_from_dict
 from ..request_handling.projectHandling import modifyProject, addUpdateToProject, supportProject, commentProject
@@ -84,7 +85,8 @@ def modify_project_image(project_id):
         if file and allowed_file(file.filename):
             secure_filename(file.filename)
             filename = "project_icons/" + project_id + ".png"
-            upload_file(file, filename)
+            if upload_file(file, filename):
+                modify_project_image_uri(project_id)
             return "OK"
 
 
