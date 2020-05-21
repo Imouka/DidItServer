@@ -1,16 +1,19 @@
 from flask import current_app
 from sqlalchemy import null
 
+import os
 from DidItBackend.database_query.utils_project import create_project, modify_project, add_update_to_project, \
-    add_support_to_project, add_comment_to_project
+    add_support_to_project, add_comment_to_project, modify_project_image_wf
 from DidItBackend.database_query.utils_queries import find_progression_by_project_id
 
 
-def createNewProject(user_id, project_data):
+def createNewProject(user_id, project_data, file=""):
+    if file == "":
+        file = os.path.join(current_app.root_path, "static\img\\base_project_icon.png")
     user_id = user_id
     title = project_data['title']
-    logo = "Nice Logo"
-    description = None
+    logo = "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/"
+    description = ""
     if "description" in project_data:
         description = project_data['description']
     project_start_date = project_data['start_date']
@@ -20,6 +23,7 @@ def createNewProject(user_id, project_data):
     date = project_data['date']
     project_id = create_project(user_id, title, logo, description, project_start_date, project_end_date, objective, pas
                                 , date)
+    modify_project_image_wf(project_id, file)
     return {"status": "ok", "message": "The project has been created", "id": project_id}
 
 

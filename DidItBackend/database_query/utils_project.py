@@ -1,11 +1,74 @@
 import datetime
 
 from flask import (
-     abort
+    abort
 )
-
+import os
+from flask import Flask, flash, request, redirect, url_for, current_app
+from werkzeug.utils import secure_filename
+import boto3
+from botocore.exceptions import NoCredentialsError
+from botocore.exceptions import ClientError
 from .utils_queries import find_project_by_user_id
 from .. import models as md
+
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def upload_file(file, file_name):
+    """Upload a file to an S3 bucket
+
+      :param file_name: File to upload
+      :param bucket: Bucket to upload to
+      :param object_name: S3 object name. If not specified then file_name is used
+      :return: True if file was uploaded, else False
+      """
+
+    # If S3 object_name was not specified, use file_name
+
+    print(current_app.config)
+    # Upload the file
+    s3_client = boto3.client('s3', aws_secret_access_key=current_app.config["AWS_SECRET_KEY"],
+                             aws_access_key_id=current_app.config["AWS_ACCESS_KEY"])
+
+    try:
+        response = s3_client.upload_fileobj(file, "diditapp", file_name)
+    except ClientError as e:
+        logging.error(e)
+        return False
+    return True
+
+
+def modify_project_image_wf(project_id, file):
+    filename = "project_icons/" + str(project_id) + ".png"
+    print(file)
+    """Upload a file to an S3 bucket
+
+          :param file_name: File to upload
+          :param bucket: Bucket to upload to
+          :param object_name: S3 object name. If not specified then file_name is used
+          :return: True if file was uploaded, else False
+          """
+
+    # If S3 object_name was not specified, use file_name
+
+    print(current_app.config)
+    # Upload the file
+    s3_client = boto3.client('s3', aws_secret_access_key=current_app.config["AWS_SECRET_KEY"],
+                             aws_access_key_id=current_app.config["AWS_ACCESS_KEY"])
+
+    try:
+        response = s3_client.upload_file(file, "diditapp", filename)
+    except ClientError as e:
+        logging.error(e)
+        return False
+    return "OK"
 
 
 def create_project(user_id, title, logo, description, project_start_date, project_end_date, objective, pas, date):
@@ -18,6 +81,8 @@ def create_project(user_id, title, logo, description, project_start_date, projec
     md.db.session.refresh(new_project)
     md.db.session.commit()
     add_update_to_project(new_project.id, user_id, date, "Project creation", None, None)
+    new_project.logo = new_project.logo + str(new_project.id) + ".png"
+    md.db.session.commit()
     return new_project.id
 
 
@@ -67,7 +132,3 @@ def add_comment_to_project(project_id, user_id, date, message):
     md.db.session.refresh(new_comment)
     md.db.session.commit()
     return new_comment.id
-
-
-
-
