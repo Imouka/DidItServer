@@ -203,7 +203,7 @@ def populate_db():
                                                                                " image, I even live naked arou"
                                                                                "nd him."
                    , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
-    modify_project_image_wf(create_project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
+    modify_project_image_wf(create_project(2, "Talk about my new boyfriend with Adam", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
