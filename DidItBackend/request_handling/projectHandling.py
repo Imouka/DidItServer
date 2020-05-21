@@ -9,7 +9,7 @@ from DidItBackend.database_query.utils_queries import find_progression_by_projec
 
 def createNewProject(user_id, project_data, file=""):
     if file == "":
-        file = os.path.join(current_app.root_path, "static\img\\base_project_icon.png")
+        file = os.path.join(current_app.root_path, "static/img/base_project_icon.png")
     user_id = user_id
     title = project_data['title']
     logo = "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/"

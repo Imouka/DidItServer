@@ -168,44 +168,44 @@ def populate_db():
     # Add 3 Project by user
     modify_project_image_wf(create_project(1, "Invite Eve to dinner twice a week", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/",
                    "I would like to go out a lot with Eve", '2019-12-01 10:10:10', '2020-12-30 10:10:10', 2, 1,
-                   "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
 
     modify_project_image_wf(create_project(1, "Invite Eve to dancing twice a week", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "I would to go out a lot with Eve"
-                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(1, "Invite Eve to the theater twice a week", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "I would to go out a lot with Eve"
-                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 2, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 2, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Try out new fruits", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "I'll try to go vegan" ,  '2019-12-01 10:10:10',
-                   '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Get some sleep", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "I love to sleep so I decided to sleep"
                                                         " at least 10 hours"
                                                         " a day during one week"
-                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 70, 10, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 70, 10, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Find some idea for funny projects", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "I'm running out of funny project to"
                                                                            "put in the database so I really"
                                                                            "need to work hard on this one"
-                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Talk about my new boyfriend with Adam", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Talk about my new boyfriend with Adam", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Talk about my new boyfriend with Adam", "Nice picture", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   , '2019-12-01 10:10:10',  '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   , '2019-12-01 10:10:10',  '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Talk about my new boyfriend with Adam", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "It feel so good to talk with "
                                                                                ", he is the best friend I good"
                                                                                " image, I even live naked arou"
                                                                                "nd him."
-                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   , '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     modify_project_image_wf(create_project(2, "Finish the list of projects", "https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/", "Coucou je suis très content poney bleu"
-                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static\img\\base_project_icon.png"))
+                   ,  '2019-12-01 10:10:10', '2020-12-30 10:10:10', 10, 1, "1995-12-30 15:20:12"),os.path.join(app.root_path, "static/img/base_project_icon.png"))
     db.session.commit()
     lg.info('Database as been update with one project!')
 
