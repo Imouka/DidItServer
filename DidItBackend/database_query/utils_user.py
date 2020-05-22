@@ -64,3 +64,24 @@ def modify_user_image_wf(user_id, file):
         logging.error(e)
         return False
     return "OK"
+
+
+def modifyProfile(user_id, data):
+    user_id = user_id
+    first_name = data['first_name']
+    last_name = data['last_name']
+    description = None
+    if "description" in data:
+        description = data['description']
+    modify_profile(user_id, first_name, last_name, description)
+    return {"status": "ok", "message": "The profile has been modified"}
+
+
+def modify_profile(user_id, first_name, last_name, description):
+    q = md.db.session.query(md.User)
+    q = q.filter(md.User.id == user_id)
+    q.update({md.User.first_name: first_name, md.User.description: description,
+              md.User.last_name: last_name})
+    md.db.session.flush()
+    md.db.session.commit()
+    return {"status": "ok"}

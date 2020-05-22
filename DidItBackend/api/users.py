@@ -3,7 +3,7 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 from ..Utils.utils import datetime_to_pretty_date
-from ..database_query.utils_user import modify_user_image_uri
+from ..database_query.utils_user import modify_user_image_uri, modifyProfile
 from ..Utils.utils_aws import upload_file, allowed_file
 from ..database_query.utils_friendship import friendshipStatus, friendListOfAFriend
 from ..database_query.utils_queries import find_user_by_id, find_all_users, find_project_by_user_id, \
@@ -209,3 +209,17 @@ def modify_user_image(user_id):
             if upload_file(file, filename):
                 modify_user_image_uri(user_id)
             return "OK"
+
+
+@usersBp.route('/<user_id>/modifyProfile', methods=['POST'])
+def modify_profile(user_id):
+    data = request.json
+    if data is None:
+        return {"status": "error", "message": "The request was not correctly formatted"}
+    # check valid data
+    has_first_name = 'first_name' in data
+    has_last_name = 'last_name' in data
+    if has_first_name & has_last_name:
+        return modifyProfile(user_id, data)
+    else:
+        return {"status": "error", "message": "The request was not correctly formatted"}
